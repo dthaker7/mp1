@@ -1,23 +1,62 @@
 // ============================================================
 // MP1 Portfolio - Main SCSS
+// Theme: Deep Space / Mission Control
 // ============================================================
 
 // ---------- Variables ----------
-$bg: #0a0f1c;
-$bg-alt: #111827;
-$surface: #172033;
-$text: #f4f7fb;
-$text-muted: #aab4c5;
-$accent: #5b9cff;
-$accent-light: #8ab8ff;
-$border: rgba(255, 255, 255, 0.1);
-$shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+$void: #090b14;         // deepest background
+$void-alt: #10132277;
+$void-alt-solid: #10132a;
+$surface: #171a30;
+$surface-raised: #1e2240;
+
+$text: #eef1fb;
+$text-muted: #9aa1bf;
+
+$accent-cyan: #4fd6e8;
+$accent-magenta: #ff6fa3;
+$accent-gold: #ffc266;
+
+$border: rgba(255, 255, 255, 0.09);
+$shadow: 0 24px 60px rgba(2, 3, 10, 0.55);
 
 :root {
     --nav-height: 84px;
     --content-width: 1180px;
     --section-padding: 110px;
     --transition: 0.3s ease;
+}
+
+// ---------- Mixins ----------
+@mixin breakpoint($bp) {
+    @media (max-width: $bp) {
+        @content;
+    }
+}
+
+@mixin glass($alpha: 0.55) {
+    background: rgba($surface, $alpha);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid $border;
+}
+
+@mixin glow-text($color, $strength: 0.55) {
+    color: $color;
+    text-shadow: 0 0 18px rgba($color, $strength);
+}
+
+// Renders an inline SVG as a mask so it can be recoloured purely through CSS
+@mixin icon-mask($svg) {
+    -webkit-mask-image: $svg;
+    mask-image: $svg;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    background-color: currentColor;
 }
 
 // ---------- Reset ----------
@@ -33,11 +72,16 @@ html {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: $bg;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    background: $void;
     color: $text;
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+}
+
+h1, h2, h3 {
+    font-family: "Space Grotesk", "Inter", Arial, sans-serif;
 }
 
 a {
@@ -52,6 +96,21 @@ button {
 img {
     max-width: 100%;
     display: block;
+}
+
+// ============================================================
+// STARFIELD (decorative canvas, drawn by script.js)
+// ============================================================
+
+#starfield {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    display: block;
+    background: $void;
+    pointer-events: none;
 }
 
 // ============================================================
@@ -71,8 +130,9 @@ img {
     justify-content: space-between;
 
     padding: 0 5%;
-    background: rgba(10, 15, 28, 0.88);
+    background: rgba(9, 11, 20, 0.72);
     backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid transparent;
 
     transition:
@@ -82,7 +142,7 @@ img {
 
     &.scrolled {
         --nav-height: 62px;
-        background: rgba(10, 15, 28, 0.97);
+        background: rgba(9, 11, 20, 0.92);
         border-bottom-color: $border;
 
         .navbar__brand {
@@ -95,11 +155,24 @@ img {
     }
 
     &__brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+
         font-size: 1.5rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        color: $accent-light;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: $text;
         transition: font-size var(--transition);
+    }
+
+    &__brand-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: $accent-cyan;
+        box-shadow: 0 0 10px 2px rgba($accent-cyan, 0.75);
+        flex-shrink: 0;
     }
 
     &__links {
@@ -123,7 +196,7 @@ img {
                 bottom: -7px;
                 width: 0;
                 height: 2px;
-                background: $accent;
+                background: linear-gradient(90deg, $accent-cyan, $accent-magenta);
                 transition: width var(--transition);
             }
 
@@ -160,10 +233,13 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
 
     background:
-        radial-gradient(circle at 80% 20%, rgba(91, 156, 255, 0.16), transparent 35%),
-        linear-gradient(135deg, $bg, #0e1728);
+        radial-gradient(circle at 78% 18%, rgba($accent-cyan, 0.16), transparent 38%),
+        radial-gradient(circle at 15% 85%, rgba($accent-magenta, 0.12), transparent 42%),
+        linear-gradient(160deg, $void 0%, $void-alt-solid 55%, $void 100%);
 
     &__content {
         width: min(1180px, 100%);
@@ -180,23 +256,41 @@ img {
     }
 
     &__kicker {
-        color: $accent-light;
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        margin-bottom: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: $accent-cyan;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        margin-bottom: 1.25rem;
+
+        &::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: $accent-cyan;
+            box-shadow: 0 0 8px 2px rgba($accent-cyan, 0.8);
+        }
     }
 
     h1 {
         font-size: clamp(3.5rem, 7vw, 6.5rem);
+        font-weight: 700;
         line-height: 0.95;
-        letter-spacing: -0.06em;
+        letter-spacing: -0.03em;
         margin-bottom: 1.3rem;
+        @include glow-text($text, 0);
+        background: linear-gradient(120deg, $text 55%, $accent-cyan 120%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     h2 {
         color: $text-muted;
+        font-family: "Space Grotesk", sans-serif;
         font-size: clamp(1.4rem, 2.5vw, 2.2rem);
         font-weight: 400;
         margin-bottom: 1.5rem;
@@ -216,18 +310,42 @@ img {
     }
 
     &__photo {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
 
         img {
-            width: min(360px, 80vw);
+            position: relative;
+            z-index: 1;
+            width: min(340px, 78vw);
             aspect-ratio: 1;
             object-fit: cover;
             border-radius: 50%;
-            border: 3px solid rgba(91, 156, 255, 0.6);
-            box-shadow: 0 0 80px rgba(91, 156, 255, 0.2);
-            animation: floatImage 4s ease-in-out infinite;
+            border: 3px solid rgba($accent-cyan, 0.55);
+            box-shadow: 0 0 70px rgba($accent-cyan, 0.22);
+            animation: floatImage 5s ease-in-out infinite;
+        }
+    }
+
+    &__photo-ring {
+        position: absolute;
+        width: min(420px, 92vw);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 1px dashed rgba($accent-cyan, 0.35);
+        animation: spin 26s linear infinite;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: $accent-gold;
+            box-shadow: 0 0 10px 3px rgba($accent-gold, 0.85);
         }
     }
 }
@@ -242,31 +360,39 @@ img {
     align-items: center;
     justify-content: center;
 
-    padding: 0.85rem 1.4rem;
-    border: 1px solid $accent;
-    border-radius: 8px;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid $accent-cyan;
+    border-radius: 999px;
 
-    background: $accent;
-    color: white;
-    font-weight: 700;
+    background: $accent-cyan;
+    color: $void;
+    font-weight: 600;
     cursor: pointer;
 
     transition:
         transform var(--transition),
         background var(--transition),
-        color var(--transition);
+        color var(--transition),
+        box-shadow var(--transition);
 
     &:hover {
         transform: translateY(-3px);
-        background: $accent-light;
+        background: $accent-magenta;
+        border-color: $accent-magenta;
+        color: $void;
+        box-shadow: 0 10px 30px rgba($accent-magenta, 0.35);
     }
 }
 
 .button--outline {
     background: transparent;
+    color: $text;
 
     &:hover {
-        background: $accent;
+        background: rgba($accent-cyan, 0.12);
+        color: $text;
+        border-color: $accent-cyan;
+        box-shadow: 0 0 24px rgba($accent-cyan, 0.25);
     }
 }
 
@@ -280,10 +406,10 @@ img {
     display: flex;
     align-items: center;
 
-    background: $bg;
+    background: $void;
 
     &--alt {
-        background: $bg-alt;
+        background: $void-alt-solid;
     }
 
     &__content {
@@ -292,18 +418,18 @@ img {
     }
 
     &__label {
-        color: $accent-light;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
+        color: $accent-cyan;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
         margin-bottom: 1rem;
     }
 
     h2 {
         font-size: clamp(2.2rem, 4vw, 4rem);
+        font-weight: 600;
         line-height: 1.1;
-        letter-spacing: -0.04em;
+        letter-spacing: -0.02em;
         margin-bottom: 2rem;
     }
 
@@ -328,9 +454,8 @@ img {
     min-height: 300px;
     padding: 2rem;
 
-    background: $surface;
-    border: 1px solid $border;
-    border-radius: 14px;
+    @include glass(0.5);
+    border-radius: 16px;
 
     transition:
         transform var(--transition),
@@ -339,14 +464,14 @@ img {
 
     &:hover {
         transform: translateY(-8px);
-        border-color: rgba(91, 156, 255, 0.5);
+        border-color: rgba($accent-cyan, 0.5);
         box-shadow: $shadow;
     }
 
     &__date {
-        color: $accent-light !important;
+        color: $accent-gold !important;
         font-size: 0.85rem !important;
-        font-weight: 700;
+        font-weight: 600;
         margin-bottom: 1.5rem;
     }
 
@@ -362,13 +487,33 @@ img {
 
 .skills {
     > div {
-        padding: 2rem;
-        border-top: 2px solid $accent;
+        position: relative;
+        padding: 2rem 2rem 2rem 3.25rem;
+        border-top: 2px solid $accent-cyan;
     }
 
     h3 {
         margin-bottom: 1rem;
         font-size: 1.25rem;
+    }
+
+    &__group::before {
+        content: "";
+        position: absolute;
+        top: 2.15rem;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        @include icon-mask(url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.39L17.8 21 12 17.77 6.2 21l1.3-7.34L3 9.27l6.1-1.01L12 2z"/></svg>'));
+        color: $accent-cyan;
+    }
+
+    &__group--data::before {
+        color: $accent-magenta;
+    }
+
+    &__group--cloud::before {
+        color: $accent-gold;
     }
 }
 
@@ -394,11 +539,12 @@ img {
     padding: 3rem;
 
     background:
-        linear-gradient(135deg, rgba(91, 156, 255, 0.1), transparent),
+        radial-gradient(circle at 85% 0%, rgba($accent-cyan, 0.12), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba($accent-magenta, 0.1), transparent 55%),
         $surface;
 
     border: 1px solid $border;
-    border-radius: 16px;
+    border-radius: 20px;
 
     animation: slideIn 0.45s ease;
 
@@ -409,11 +555,10 @@ img {
     }
 
     &__tag {
-        color: $accent-light !important;
+        color: $accent-cyan !important;
         font-size: 0.8rem !important;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
+        font-weight: 600;
+        letter-spacing: 0.06em;
         margin-bottom: 1rem;
     }
 
@@ -441,16 +586,18 @@ img {
 
     transition:
         background var(--transition),
+        border-color var(--transition),
         transform var(--transition);
 
     &:hover {
-        background: $accent;
+        background: rgba($accent-cyan, 0.16);
+        border-color: $accent-cyan;
         transform: scale(1.08);
     }
 }
 
 // ============================================================
-// FIXED BACKGROUND SECTION
+// FIXED BACKGROUND SECTION ("Deep Space")
 // ============================================================
 
 .featured {
@@ -463,10 +610,10 @@ img {
 
     background:
         linear-gradient(
-            rgba(5, 10, 20, 0.78),
-            rgba(5, 10, 20, 0.9)
+            rgba(4, 5, 12, 0.72),
+            rgba(4, 5, 12, 0.88)
         ),
-        url("../assets/image.jpg") center / cover no-repeat;
+        url("assets/nebula-bg.jpg") center / cover no-repeat;
 
     background-attachment: fixed;
 
@@ -496,8 +643,9 @@ img {
         width: 100%;
         max-height: 600px;
         margin-top: 2rem;
-        border-radius: 14px;
+        border-radius: 16px;
         border: 1px solid $border;
+        box-shadow: 0 0 0 1px rgba($accent-cyan, 0.12), $shadow;
         background: #000;
     }
 }
@@ -530,7 +678,7 @@ img {
         gap: 0.65rem;
 
         border: 1px solid $border;
-        border-radius: 8px;
+        border-radius: 999px;
 
         color: $text-muted;
 
@@ -541,18 +689,35 @@ img {
             transform var(--transition);
 
         &:hover {
-            color: white;
-            background: $accent;
-            border-color: $accent;
+            color: $void;
+            background: $accent-cyan;
+            border-color: $accent-cyan;
             transform: translateY(-3px);
         }
     }
 
+    // Icons are rendered purely through CSS via mask-image, recolourable with currentColor
     .social-icon {
-        width: 22px;
-        height: 22px;
-        fill: currentColor;
+        width: 20px;
+        height: 20px;
         flex-shrink: 0;
+        color: $text;
+
+        &--github {
+            @include icon-mask(url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.58 2 12.22c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.48v-1.7c-2.78.62-3.37-1.37-3.37-1.37-.46-1.2-1.12-1.52-1.12-1.52-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05A9.2 9.2 0 0 1 12 6.96c.85 0 1.7.12 2.5.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.35 4.8-4.58 5.06.36.32.68.94.68 1.9v2.81c0 .27.18.59.69.48A10.23 10.23 0 0 0 22 12.22C22 6.58 17.52 2 12 2Z"/></svg>'));
+        }
+
+        &--linkedin {
+            @include icon-mask(url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 8.5A1.75 1.75 0 1 0 6.5 5a1.75 1.75 0 0 0 0 3.5ZM5 10h3v9H5v-9Zm5 0h2.88v1.23h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6V19h-3v-4.2c0-1-.02-2.3-1.4-2.3-1.4 0-1.62 1.1-1.62 2.23V19h-3v-9Z"/></svg>'));
+        }
+
+        &--email {
+            @include icon-mask(url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.5l9 5.5 9-5.5V7H3Zm18 10V9.84l-8.48 5.18a1 1 0 0 1-1.04 0L3 9.84V17h18Z"/></svg>'));
+        }
+    }
+
+    a:hover .social-icon {
+        color: $void;
     }
 }
 
@@ -570,7 +735,7 @@ img {
     justify-content: center;
 
     padding: 2rem;
-    background: rgba(0, 0, 0, 0.78);
+    background: rgba(2, 3, 8, 0.82);
     backdrop-filter: blur(8px);
 
     &.open {
@@ -583,15 +748,15 @@ img {
         width: min(650px, 100%);
         padding: 3rem;
 
-        background: $surface;
-        border: 1px solid $border;
-        border-radius: 16px;
+        @include glass(0.92);
+        border-radius: 20px;
         box-shadow: $shadow;
 
         animation: modalEnter 0.3s ease;
 
         h2 {
             margin-bottom: 1rem;
+            @include glow-text($accent-cyan, 0.35);
         }
     }
 
@@ -607,12 +772,13 @@ img {
         border-radius: 50%;
 
         background: rgba(255, 255, 255, 0.08);
-        color: white;
+        color: $text;
         font-size: 1.5rem;
         cursor: pointer;
+        transition: background var(--transition);
 
         &:hover {
-            background: $accent;
+            background: $accent-magenta;
         }
     }
 }
@@ -624,7 +790,7 @@ img {
 .footer {
     padding: 2rem 5%;
     text-align: center;
-    background: #070b14;
+    background: #05060c;
     border-top: 1px solid $border;
 
     p {
@@ -657,6 +823,16 @@ img {
 
     50% {
         transform: translateY(-12px);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -694,11 +870,27 @@ img {
     }
 }
 
+// Respect users who've asked for less motion
+@media (prefers-reduced-motion: reduce) {
+    .hero__content,
+    .hero__photo img,
+    .hero__photo-ring,
+    .project-slide,
+    .modal.open,
+    .modal__content {
+        animation: none !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
 // ============================================================
 // RESPONSIVE DESIGN
 // ============================================================
 
-@media (max-width: 1024px) {
+@include breakpoint(1024px) {
     :root {
         --section-padding: 85px;
     }
@@ -712,7 +904,7 @@ img {
     }
 }
 
-@media (max-width: 768px) {
+@include breakpoint(768px) {
     :root {
         --section-padding: 70px;
     }
@@ -734,7 +926,7 @@ img {
             gap: 0;
 
             padding: 1rem 5%;
-            background: rgba(10, 15, 28, 0.98);
+            background: rgba(9, 11, 20, 0.98);
             border-bottom: 1px solid $border;
 
             &.open {
@@ -768,7 +960,11 @@ img {
             order: -1;
 
             img {
-                width: min(260px, 65vw);
+                width: min(240px, 62vw);
+            }
+
+            &-ring {
+                width: min(320px, 78vw);
             }
         }
     }
@@ -796,7 +992,7 @@ img {
     }
 }
 
-@media (max-width: 480px) {
+@include breakpoint(480px) {
     .hero {
         &__actions {
             flex-direction: column;
