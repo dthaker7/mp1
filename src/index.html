@@ -1,13 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MP1</title>
-    </head>
-    <body>
-        <h1>Hello World! Welcome to MP1!</h1>
-        <img src="assets/image.jpg">
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhruv Thaker | Data Engineer & AI/ML Practitioner</title>
+</head>
+
+<body>
+
+    <header class="hero" id="home">
+
+        <nav class="navbar" id="navbar">
+            <a class="navbar__brand" href="#home">DT</a>
+
+            <button class="navbar__toggle" id="nav-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+
+            <ul class="navbar__links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero__content">
+
+            <div class="hero__text">
+                <p class="hero__kicker">Champaign, Illinois</p>
+
+                <h1>Dhruv Thaker</h1>
+
+                <h2>Data Engineer &amp; AI/ML Practitioner</h2>
+
+                <p class="hero__description">
+                    I build data pipelines, machine learning applications,
+                    and LLM-driven solutions that turn complex data into
+                    systems people can trust and use.
+                </p>
+
+                <div class="hero__actions">
+                    <a href="#projects" class="button">View Projects</a>
+                    <a href="#contact" class="button button--outline">Contact Me</a>
+                </div>
+            </div>
+
+            <div class="hero__photo">
+                <img src="assets/src/assets/profile_pic_linkedin.png" alt="Portrait of Dhruv Thaker">
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="section" id="about">
+            <div class="section__content">
+
+                <p class="section__label">01 / About</p>
+
+                <h2>Building systems around data.</h2>
+
+                <p>
+                    I'm a graduate student in Information Management at the
+                    University of Illinois Urbana-Champaign with experience
+                    building cloud data pipelines, machine learning models,
+                    automation solutions, and LLM-based applications.
+                </p>
+
+            </div>
+        </section>
+
+
+        <section class="section section--alt" id="experience">
+            <div class="section__content">
+
+                <p class="section__label">02 / Experience</p>
+
+                <h2>Where I've worked.</h2>
+
+                <div class="three-column">
+
+                    <article class="experience-card">
+                        <p class="experience-card__date">2026 — Present</p>
+                        <h3>UIUC Business Intelligence Group</h3>
+                        <p>Technical Consultant</p>
+                        <p>
+                            AI agents, LLM applications, ETL pipelines,
+                            Python, SQL, AWS and Azure.
+                        </p>
+                    </article>
+
+                    <article class="experience-card">
+                        <p class="experience-card__date">2023 — 2025</p>
+                        <h3>PwC</h3>
+                        <p>Technical Consultant</p>
+                        <p>
+                            Cloud ETL pipelines, PySpark, Databricks,
+                            SQL, automation and BI dashboards.
+                        </p>
+                    </article>
+
+                    <article class="experience-card">
+                        <p class="experience-card__date">2022 — 2023</p>
+                        <h3>Web Colors Digital</h3>
+                        <p>Technology Intern</p>
+                        <p>
+                            Web development and software solutions
+                            for business applications.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="section" id="projects">
+
+            <div class="section__content">
+
+                <p class="section__label">03 / Projects</p>
+
+                <h2>Things I've built.</h2>
+
+                <div class="carousel" id="project-carousel">
+
+                    <button class="carousel__arrow carousel__arrow--left"
+                            id="carousel-prev"
+                            aria-label="Previous project">
+                        &#10094;
+                    </button>
+
+                    <div class="carousel__track">
+
+                        <article class="project-slide active">
+                            <p class="project-slide__tag">
+                                Python · Flask · Machine Learning
+                            </p>
+                            <h3>MatchOracle</h3>
+                            <p>
+                                A football match prediction system using
+                                team strength, recent form, league strength,
+                                home advantage and goal-based modeling.
+                            </p>
+                            <button class="modal-button"
+                                    data-modal="matchoracle-modal">
+                                Learn More
+                            </button>
+                        </article>
+
+                        <article class="project-slide">
+                            <p class="project-slide__tag">
+                                ML · Python · Power BI · PostgreSQL
+                            </p>
+                            <h3>Call Center Decision Support</h3>
+                            <p>
+                                An end-to-end forecasting and BI system
+                                designed to support call-center staffing
+                                decisions.
+                            </p>
+                            <button class="modal-button"
+                                    data-modal="callcenter-modal">
+                                Learn More
+                            </button>
+                        </article>
+
+                        <article class="project-slide">
+                            <p class="project-slide__tag">
+                                Python · R · Data Science
+                            </p>
+                            <h3>Insurance Risk &amp; Segmentation</h3>
+                            <p>
+                                Exploratory analysis, feature engineering
+                                and clustering to identify high-risk
+                                customer segments.
+                            </p>
+                            <button class="modal-button"
+                                    data-modal="insurance-modal">
+                                Learn More
+                            </button>
+                        </article>
+
+                    </div>
+
+                    <button class="carousel__arrow carousel__arrow--right"
+                            id="carousel-next"
+                            aria-label="Next project">
+                        &#10095;
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="section section--alt" id="skills">
+
+            <div class="section__content">
+
+                <p class="section__label">04 / Skills</p>
+
+                <h2>Tools I work with.</h2>
+
+                <div class="three-column skills">
+
+                    <div>
+                        <h3>Languages</h3>
+                        <p>Python · SQL · Java · JavaScript · PySpark · R</p>
+                    </div>
+
+                    <div>
+                        <h3>Data &amp; ML</h3>
+                        <p>
+                            Pandas · NumPy · Scikit-learn · TensorFlow ·
+                            PyTorch · NLP · LLMs
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Cloud</h3>
+                        <p>
+                            AWS · Azure · Databricks · Snowflake ·
+                            Power BI · Tableau
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="featured" id="featured">
+
+            <div class="featured__content">
+
+                <p class="section__label">05 / Featured</p>
+
+                <h2>From raw data to useful systems.</h2>
+
+                <p>
+                    I enjoy working across the entire data lifecycle —
+                    ingestion, transformation, modeling, analysis and
+                    intelligent applications.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="section video-section">
+
+            <div class="section__content">
+
+                <p class="section__label">06 / Video</p>
+
+                <h2>A little more about me.</h2>
+
+                <video controls width="100%">
+                    <source src="assets/about.mp4" type="video/mp4">
+                    Your browser does not support HTML5 video.
+                </video>
+
+            </div>
+
+        </section>
+
+
+        <section class="section section--alt" id="contact">
+
+            <div class="section__content contact">
+
+                <p class="section__label">07 / Contact</p>
+
+                <h2>Let's connect.</h2>
+
+                <p>
+                    Interested in data engineering, machine learning,
+                    or building something interesting together?
+                </p>
+
+                <div class="social-links">
+
+                    <a href="https://github.com/dthaker7"
+                       target="_blank"
+                       rel="noopener"
+                       aria-label="GitHub">
+                        GitHub
+                    </a>
+
+                    <a href="https://linkedin.com/in/dhruv-thaker"
+                       target="_blank"
+                       rel="noopener"
+                       aria-label="LinkedIn">
+                        LinkedIn
+                    </a>
+
+                    <a href="mailto:dthaker3@illinois.edu">
+                        Email
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+        <p>Dhruv Thaker · MS Information Management · UIUC</p>
+    </footer>
+
+
+    <!-- Modals -->
+
+    <div class="modal" id="matchoracle-modal">
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <h2>MatchOracle</h2>
+            <p>
+                A machine learning application for football match
+                prediction using team strength, recent form and
+                probability-based modeling.
+            </p>
+        </div>
+    </div>
+
+    <div class="modal" id="callcenter-modal">
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <h2>Call Center Decision Support</h2>
+            <p>
+                A forecasting and BI platform combining ETL,
+                PostgreSQL, machine learning and Power BI.
+            </p>
+        </div>
+    </div>
+
+    <div class="modal" id="insurance-modal">
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <h2>Insurance Risk &amp; Segmentation</h2>
+            <p>
+                A data science project using exploratory analysis,
+                feature engineering and clustering.
+            </p>
+        </div>
+    </div>
+
+</body>
 </html>
