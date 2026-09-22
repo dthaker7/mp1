@@ -190,6 +190,27 @@ document.addEventListener("keydown", (event) => {
 });
 
 
+// ---------- Hero background video ----------
+// Respect prefers-reduced-motion by freezing on the poster frame instead
+// of looping the clip.
+(function initHeroVideo() {
+    const heroVideo = document.querySelector(".hero__bg-video");
+
+    if (!heroVideo) {
+        return;
+    }
+
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+        heroVideo.pause();
+        heroVideo.removeAttribute("autoplay");
+    }
+})();
+
+
 // ---------- Starfield background ----------
 // A lightweight, dependency-free canvas starfield that sits behind all
 // page content (#starfield, z-index -1 in the SCSS). Stars gently twinkle
